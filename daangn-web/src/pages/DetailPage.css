@@ -1,0 +1,230 @@
+.content-wrapper{
+    width: 100%;
+    background-color: white;
+    padding: 30px 0 40px 0;
+}
+
+.content{
+    
+    width: 50%;
+    margin: 0 auto;
+   
+}
+
+.content-img{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+.image-slider {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-slider img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.prev-button,
+.next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: none;
+    color: black;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.prev-button {
+    left: -50px;
+}
+
+.next-button {
+    right: -50px;
+}
+.profile{
+    margin-top: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.6rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.profile-left{
+    display: flex;
+    
+}
+
+.profile-left img{
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+}
+
+.profile-left-text{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1.2rem;
+    justify-content: center;
+}
+.profile-left-text span{
+    display: block;
+}
+
+.profile-name{
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.6px;
+    color: #212529;
+}
+
+.profile-location{
+    font-size: 1.2rem;
+    line-height: 1.46;
+    letter-spacing: -0.6px;
+    color: #212529;
+}
+
+.profile-right{
+   
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    /* background-color: blueviolet; */
+}
+
+.tp-top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px;
+}
+.temperature{
+    margin-right: 8px;
+}
+
+.profile-right span{
+    margin-top: 1rem;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: -0.6px;
+    color: #868e96;
+}
+.temp-text{
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    margin-top: 1px;
+    width: 100px;
+    color: #1561a9;
+    text-align: right;
+}
+
+.temp-bar{
+    clear: both;
+    display: block;
+    width: 100px;
+    background-color: #e9ecef;
+    height: 4px;
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    position: relative;
+    vertical-align: middle;
+    margin-top: 8px;
+   
+}
+
+.temp-bar-inner{
+    width: 37%;
+    height: 4px;
+    background-color: #1561a9;
+}
+.temperature-icon{
+    
+    width: 24px;
+    height: 24px;
+    background: url(https://d1unjqcospf8gs.cloudfront.net/assets/home/articles/face-icon-set@2x-0bece009c619b4706f52a750aca82448334aa3e39d353579f2ce9c365639a03b.png) no-repeat;
+    background-size: 29px 147px;
+    background-position: -0px -75px;
+}
+
+.content-detail{
+    padding: 32px 0;
+    width: 100%;
+    margin: 0 auto;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.content-category{
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 1.46;
+    letter-spacing: -0.6px;
+    color: #868e96;
+}
+
+.content-price{
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 4px;
+    line-height: 1.76;
+    letter-spacing: -0.6px;
+}
+
+.content-desc{
+    margin-bottom: 16px;
+    margin-top: 8px;
+    font-size: 17px;
+    line-height: 1.6;
+    letter-spacing: -0.6px;
+    margin: 16px 0;
+    word-break: break-all;
+}
+
+.content-counts{
+    font-size: 13px;
+    line-height: 1.46;
+    letter-spacing: -0.6px;
+    color: #868e96;
+}
+
+@media (max-width: 760px) {
+    .content {
+        width: 90%;
+        padding: 0 10px;
+    }
+    .prev-button{
+        left: -30px;
+        background-color: transparent;
+    }
+    .next-button{
+        right: -30px;
+        background-color: transparent;
+
+    }
+    .content-detail {
+        width: 100%;
+        padding: 30px 0px;
+    }
+
+    .image-slider img {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+    }
+}

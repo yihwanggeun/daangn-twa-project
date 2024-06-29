@@ -1,0 +1,138 @@
+.result{
+    background-color: #f8f9fa;
+    padding: 30px 0 40px 0;
+}
+
+.result-container{
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    width: 800px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background: #fff;
+
+}
+
+.articles-wrap{
+    padding: 0 40px;
+}
+
+
+.article-kind{
+    font-weight: 600;
+    color: #212529;
+    font-size: 18px;
+    margin: 20px 0;
+}
+
+.article-item{
+    position: relative;    
+    /* background-color: aliceblue; */
+    width: 217px;
+    padding: 0;
+    display: inline-block;
+    /* border: 1px solid black; */
+    margin-right: 31px;
+    margin-bottom: 40px;
+}
+
+.article-link{
+
+    text-decoration: none;
+    color: #212529;
+}
+
+.article-item:nth-child(3n-2){
+    margin-right: 0;
+}
+
+
+.article-img{
+    width: 100%;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+.article-title{
+    display: block;
+    font-weight: 600;
+    color: #212529;
+    font-size: 16px;
+    line-height: 18px;
+    margin-top: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.article-location{
+    font-size: 14px;
+    line-height: 18px;
+    margin-top: 6px;
+    color: #868e96;
+}
+
+.article-price{
+    font-weight: 600;
+    color: #ff8a3d;
+    font-size: 15px;
+    line-height: 18px;
+    margin-top: 6px;
+}
+
+.article-item section{
+    position: absolute;
+    right: 0;
+    bottom: 14px;
+}
+
+.article-like img{
+    
+    width: 13px;
+    margin: 0 0 -1px 4px;
+}
+
+.article-like{
+    color: #212529;
+    display: inline-block;
+    font-size: 14px;
+    
+}
+
+/* 반응형 스타일 */
+@media (max-width: 760px) {
+    .result{
+        padding : 0;
+    }
+    .article-kind{
+        display: none;
+    }
+    .article-item {
+        width: 100%;
+        border-bottom: 1px solid #e9ecef;
+        padding: 2rem 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .result-container {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .articles-wrap {
+
+        padding: 0 10px;
+    }
+
+    .article-img{
+        width: 25%;
+        margin-right: 2rem;
+    }
+    .article-link{
+        display: flex;
+        flex-direction: row;
+    }
+}
