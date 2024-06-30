@@ -1,0 +1,13 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.skku.daangnapp",
+        "sha256_cert_fingerprints": [
+          "C5:83:4A:EC:8A:E3:81:63:36:EA:EC:9A:DD:3D:F2:0A:B9:E1:E5:D4:4E:29:5C:59:E7:2E:B6:97:8F:1D:D8:98"
+        ]
+      }
+    }
+  ]
+  

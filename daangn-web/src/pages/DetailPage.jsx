@@ -59,30 +59,35 @@ const DetailPage = () => {
 
     useEffect(() => {
         const getCurrentLocation = () => {
-            if(navigator.geolocation){
+            if (navigator.geolocation) {
                 const startTime = Date.now();
                 console.log(startTime);
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        const{ latitude, longitude } = position.coords;
+                        const { latitude, longitude } = position.coords;
                         console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                        if (window.Android) {
-                            window.Android.showToast(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                        if (window.parent) {
+                            console.log("PostMessage");
+                            window.parent.postMessage(
+                                { type: 'location', latitude, longitude },
+                                '*'
+                            );
                         }
                     },
                     (error) => {
                         console.error("Error Getting Location: ", error);
                     }
                 );
-            } else{
+            } else {
                 console.error("Geolocation is not supported");
             }
         }
 
         getCurrentLocation();
     }, [id]);
+
     const item = items.find(item => item.id === parseInt(id));
-    
+
     const images = [
         item.imgSrc,
         item.imgSrc,
@@ -125,7 +130,7 @@ const DetailPage = () => {
                                     <div className="temp-bar-inner"></div>
                                 </div>
                             </div>
-                            <div className='temperature-icon' ></div>
+                            <div className='temperature-icon'></div>
                         </div>
                         <span>매너온도</span>
                     </div>
