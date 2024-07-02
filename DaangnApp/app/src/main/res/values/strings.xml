@@ -1,12 +1,3 @@
 <resources>
-    <string name="app_name">DaangnApp</string>
-    <string name="asset_statements">
-        [{
-          "relation": ["delegate_permission/common.handle_all_urls"],
-          "target": {
-            "namespace": "web",
-            "site": "https://192.168.0.2:3000"
-          }
-        }]
-    </string>
+    <string name="app_name">daangnapp</string>
 </resources>

@@ -45,6 +45,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("androidx.browser:browser:1.3.0")
-    implementation("com.google.androidbrowserhelper:androidbrowserhelper:2.2.0")
+    implementation("com.google.androidbrowserhelper:androidbrowserhelper:2.5.0")
 }

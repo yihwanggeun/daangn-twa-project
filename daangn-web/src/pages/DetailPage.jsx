@@ -57,33 +57,61 @@ const items = [
 const DetailPage = () => {
     const { id } = useParams();
 
+    
     useEffect(() => {
-        const getCurrentLocation = () => {
-            if (navigator.geolocation) {
-                const startTime = Date.now();
-                console.log(startTime);
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const { latitude, longitude } = position.coords;
-                        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                        if (window.parent) {
-                            console.log("PostMessage");
-                            window.parent.postMessage(
-                                { type: 'location', latitude, longitude },
-                                '*'
-                            );
-                        }
-                    },
-                    (error) => {
-                        console.error("Error Getting Location: ", error);
-                    }
-                );
-            } else {
-                console.error("Geolocation is not supported");
-            }
-        }
+        // const getCurrentLocation = () => {
+        //     if (navigator.geolocation) {
+        //         navigator.geolocation.getCurrentPosition(
+        //             (position) => {
+        //                 const { latitude, longitude } = position.coords;
+        //                 console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
-        getCurrentLocation();
+        //                 // 메시지 채널을 생성합니다.
+        //                 const channel = new MessageChannel();
+
+        //                 // 부모 창에 메시지를 보냅니다. 이때 port2를 전달합니다.
+        //                 window.parent.postMessage(
+        //                     { type: 'location', latitude, longitude },
+        //                     '*',
+        //                     [channel.port2]
+        //                 );
+
+        //                 // port1을 사용하여 부모 창과 통신합니다.
+        //                 const port = channel.port1;
+        //                 port.postMessage({ type: 'location', latitude, longitude });
+
+        //                 port.onmessage = (event) => {
+        //                     console.log("[PostMessage] Got message: ", event.data);
+        //                 };
+        //             },
+        //             (error) => {
+        //                 console.error("Error Getting Location: ", error);
+        //             }
+        //         );
+        //     } else {
+        //         const errorMsg = "Geolocation is not supported";
+        //         console.error(errorMsg);
+        //     }
+        // }
+        const postMessage = () =>{
+                        const channel = new MessageChannel();
+
+                        // 부모 창에 메시지를 보냅니다. 이때 port2를 전달합니다.
+                        window.parent.postMessage(
+                            { type: 'location', latitude: 123, longitude: 456 },
+                            '*',
+                            [channel.port2]
+                        );
+                        
+                        // port1을 사용하여 부모 창과 통신합니다.
+                        const port = channel.port1;
+                        port.postMessage({ type: 'location', latitude: 123, longitude: 456 });
+
+                        port.onmessage = (event) => {
+                            console.log("[PostMessage] Got message: ", event.data);
+                        };
+        }
+        postMessage();
     }, [id]);
 
     const item = items.find(item => item.id === parseInt(id));

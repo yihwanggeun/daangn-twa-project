@@ -3,43 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.skku.daangnapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DaangnApp"
         tools:targetApi="31">
-        <meta-data
-            android:name="asset_statements"
-            android:resource="@string/asset_statements"/>
+        <meta-data android:name="asset_statements" android:resource="@raw/asset_statements" />
 
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="androidx.browser.trusted.TrustedWebActivityLauncherActivity"
-            android:label="@string/app_name"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.customtabs.trusted.DEFAULT_URL"
-                android:value="https://192.168.0.2:3000"/>
-        </activity>
-
-        <service android:name="androidx.browser.customtabs.PostMessageService"
-            android:exported="true"/>
+        <service
+            android:name="androidx.browser.customtabs.PostMessageService"
+            android:exported="true" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 </manifest>
