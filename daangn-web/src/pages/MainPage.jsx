@@ -1,4 +1,5 @@
-import React from 'react';
+import React , {useEffect, useContext} from 'react';
+import { PortContext } from '../hooks/PortContext';
 import './MainPage.css';
 import { Link } from 'react-router-dom';
 import image from '../icon.jpg'; // 이미지 파일을 올바른 경로에서 가져옵니다.
@@ -55,6 +56,16 @@ const items = [
 ];
 
 const MainPage = () => {
+    const { port } = useContext(PortContext); // Context에서 port 가져오기
+
+    useEffect(() => {
+        if (port) {
+            port.onmessage = function(event) {
+                console.log("[PostMessage] Got message: " + event.data);
+            };
+        }
+    }, [port]);
+
     return (
         <div>
             <div className='result'>

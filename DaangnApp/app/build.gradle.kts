@@ -45,5 +45,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("androidx.browser:browser:1.6.0-alpha02")
+    implementation ("com.google.code.gson:gson:2.8.8")
+    implementation ("com.google.androidbrowserhelper:locationdelegation:1.0.1")
     implementation("com.google.androidbrowserhelper:androidbrowserhelper:2.5.0")
 }

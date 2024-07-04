@@ -3,23 +3,23 @@ package com.skku.daangnapp
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ComponentName
+import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.browser.customtabs.CustomTabsCallback
-import androidx.browser.customtabs.CustomTabsClient
-import androidx.browser.customtabs.CustomTabsServiceConnection
-import androidx.browser.customtabs.CustomTabsSession
+import androidx.browser.customtabs.*
 import androidx.browser.trusted.TrustedWebActivityIntentBuilder
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.androidbrowserhelper.demos.twapostmessage.MessageNotificationHandler
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,25 +30,34 @@ class MainActivity : AppCompatActivity() {
     private val TARGET_ORIGIN = Uri.parse("https://192.168.0.2:3000")
     private var mValidated = false
     private val TAG = "PostMessageDemo"
+    private val gson = Gson()
+
+    private val requestLocationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            Log.d(TAG, "Location permission granted, binding Custom Tabs service")
+            bindCustomTabsService()
+        } else {
+            Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: Activity created")
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "onCreate: Requesting location permission")
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-            } else {
-                Log.d(TAG, "onCreate: Location permission already granted, binding Custom Tabs service")
-                bindCustomTabsService()
-            }
+        val serviceIntent = Intent(this, ExtraFeaturesService::class.java)
+        ContextCompat.startForegroundService(this, serviceIntent)
+        Log.d("MainActivity", "ExtraFeaturesService started")
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "onCreate: Requesting location permission")
+            requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
-            Log.d(TAG, "onCreate: SDK version < M, binding Custom Tabs service")
+            Log.d(TAG, "onCreate: Location permission already granted, binding Custom Tabs service")
             bindCustomTabsService()
         }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -65,6 +74,20 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "onPostMessage: Message contains ACK, returning")
                 return
             }
+
+            try {
+                val jsonData = gson.fromJson(message, Map::class.java)
+                Log.d(TAG, "onPostMessage: Received JSON data: $jsonData")
+
+                if (jsonData["message"] == "DetailPage") {
+                    runOnUiThread {
+                        Toast.makeText(this@MainActivity, "Json Data Receive", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: JsonSyntaxException) {
+                Log.e(TAG, "JsonSyntaxException: ${e.message}")
+            }
+
             MessageNotificationHandler.showNotificationWithMessage(this@MainActivity, message)
             Log.d(TAG, "onPostMessage: Showing notification with message: $message")
         }
@@ -74,6 +97,11 @@ class MainActivity : AppCompatActivity() {
 
             if (!result) {
                 Log.d(TAG, "Relationship validation failed for origin: $requestedOrigin with relation: $relation")
+                if (extras != null) {
+                    for (key in extras.keySet()) {
+                        Log.d(TAG, "Extra: $key = ${extras.get(key)}")
+                    }
+                }
             } else {
                 Log.d(TAG, "Relationship validation succeeded for origin: $requestedOrigin with relation: $relation")
             }
@@ -90,17 +118,16 @@ class MainActivity : AppCompatActivity() {
 
             if (!mValidated) {
                 Log.d(TAG, "Not starting PostMessage as validation didn't succeed.")
-                return
             }
 
-            val result = mSession?.requestPostMessageChannel(SOURCE_ORIGIN) ?: false
+            val result = mSession?.requestPostMessageChannel(SOURCE_ORIGIN, TARGET_ORIGIN, Bundle()) ?: false
             Log.d(TAG, "Requested Post Message Channel: $result")
         }
 
         override fun onMessageChannelReady(extras: Bundle?) {
             Log.d(TAG, "Message channel ready.")
 
-            val result = mSession?.postMessage("First message", null) ?: 0
+            val result = mSession?.postMessage("First message from Android", null) ?: 0
             Log.d(TAG, "postMessage returned: $result")
         }
     }
@@ -121,7 +148,9 @@ class MainActivity : AppCompatActivity() {
                 mClient = client
                 client.warmup(0L)
                 mSession = mClient!!.newSession(customTabsCallback)
+                Log.d(TAG, "New session created")
                 launch()
+                registerBroadcastReceiver()
             }
 
             override fun onServiceDisconnected(name: ComponentName) {
